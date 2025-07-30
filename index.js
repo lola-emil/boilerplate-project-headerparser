@@ -20,8 +20,20 @@ app.get('/', function (req, res) {
 });
 
 // your first API endpoint...
-app.get('/api/hello', function (req, res) {
-  res.json({ greeting: 'hello API' });
+// app.get('/api/hello', function (req, res) {
+//   res.json({ greeting: 'hello API' });
+// });
+
+app.get('/api/whoami', (req, res) => {
+  const ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+  const language = req.headers['accept-language'];
+  const software = req.headers['user-agent'];
+
+  res.json({
+    ipaddress: ip.split(',')[0], // If behind a proxy, take first IP
+    language: language,
+    software: software
+  });
 });
 
 // listen for requests :)
